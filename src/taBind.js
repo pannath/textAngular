@@ -564,7 +564,9 @@ angular.module('textAngular.taBind', ['textAngular.factories', 'textAngular.DOM'
                                         continue;
                                     } else {
                                         var tagName = dom[0].childNodes[i].tagName.toLowerCase();
+                                        // Fix for copying from MS outlook
                                         if(tagName !== 'p' &&
+                                            tagName !== 'span' &&
                                             tagName !== 'ul' &&
                                             tagName !== 'h1' &&
                                             tagName !== 'h2' &&
@@ -646,6 +648,12 @@ angular.module('textAngular.taBind', ['textAngular.factories', 'textAngular.DOM'
                                 // LF characters instead of spaces in some spots and they are replaced by '/n', so we need to just swap them to spaces
                                 text = text.replace(/\n/g, ' ');
                             }else{
+                                // Remove unnecessary insert of text containg StartFragment to EndFragment for unrecognized editor
+                                var textFragment = text.match(/<!--StartFragment-->([\s\S]*?)<!--EndFragment-->/i);
+                                if(!textFragment) textFragment = text;
+                                else textFragment = textFragment[1];
+                                textFragment = textFragment.replace(/<o:p>[\s\S]*?<\/o:p>/ig, '').replace(/class=(["']|)MsoNormal(["']|)/ig, '');
+                                text=textFragment;
                                 // remove unnecessary chrome insert
                                 text = text.replace(/<(|\/)meta[^>]*?>/ig, '');
                                 if(text.match(/<[^>]*?(ta-bind)[^>]*?>/)){
