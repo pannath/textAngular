@@ -3930,6 +3930,10 @@ textAngular.directive("textAngular", [
                 var _resizeTimeout;
 
                 scope._name = (attrs.name) ? attrs.name : 'textAngularEditor' + _serial;
+                scope._rangysaveSelection = true;
+                if(!rangy.saveSelection) {
+                    scope._rangysaveSelection = false;
+                }
 
                 var oneEvent = function(_element, event, action){
                     $timeout(function(){
