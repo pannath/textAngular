@@ -696,6 +696,7 @@ angular.module('textAngular.taBind', ['textAngular.factories', 'textAngular.DOM'
                                 return result;
                             }).replace(/\n|\r\n|\r/g, '<br />').replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
 
+                            text=text.replace(/<br \/>/g,'').replace(/<br>/g,'');
                             if(_pasteHandler) text = _pasteHandler(scope, {$html: text}) || text;
 
                             // turn span vertical-align:super into <sup></sup>
